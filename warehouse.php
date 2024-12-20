@@ -2,7 +2,7 @@
 include "connection.php";
 session_start();
 
-// Handle Create operation
+
 if (isset($_POST['add_warehouse'])) {
     $city = $_POST['city'];
     $street = $_POST['street'];
@@ -13,7 +13,7 @@ if (isset($_POST['add_warehouse'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Update operation
+
 if (isset($_POST['update_warehouse'])) {
     $warehouse_id = $_POST['warehouse_id'];
     $city = $_POST['city'];
@@ -25,18 +25,18 @@ if (isset($_POST['update_warehouse'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Delete operation
+
 if (isset($_GET['delete'])) {
     $warehouse_id = $_GET['delete'];
     $query = "DELETE FROM warehouse WHERE WarehouseID = '$warehouse_id'";
     mysqli_query($conn, $query);
 }
 
-// Fetch data to display in table
+
 $query = "SELECT * FROM warehouse";
 $result = mysqli_query($conn, $query);
 
-// Prepare data for chart (Capacity per Type of Warehouse)
+
 $capacity_data = [];
 $cities = [];
 $types = [];
@@ -47,7 +47,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $capacity_data[] = $row['Capacity'];
 }
 
-// Get capacity sums for each warehouse type
+
 $type_capacity = [];
 foreach ($types as $index => $type) {
     if (!isset($type_capacity[$type])) {
@@ -94,7 +94,7 @@ foreach ($types as $index => $type) {
 </head>
 
 <body>
-    <!-- Navigation Bar -->
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">GreenCycle</a>
@@ -124,14 +124,14 @@ foreach ($types as $index => $type) {
     <section class="container my-5">
         <h2 class="text-center">Warehouse Management</h2>
 
-        <!-- Alert for success or failure -->
+       
         <?php if (isset($message)): ?>
         <div class="alert alert-success">
             <?php echo $message; ?>
         </div>
         <?php endif; ?>
 
-        <!-- Add New Warehouse Form -->
+       
         <h3>Add New Warehouse</h3>
         <form method="POST" action="">
             <div class="form-group">
@@ -143,7 +143,7 @@ foreach ($types as $index => $type) {
             </div>
         </form>
 
-        <!-- Displaying Warehouse Data -->
+        
         <table class="table table-bordered table-hover mt-4">
             <thead>
                 <tr>
@@ -157,7 +157,7 @@ foreach ($types as $index => $type) {
             </thead>
             <tbody>
                 <?php
-                // Reset result pointer to fetch data again for displaying
+                
                 mysqli_data_seek($result, 0);
                 while ($row = mysqli_fetch_assoc($result)): ?>
                 <tr>
@@ -167,15 +167,15 @@ foreach ($types as $index => $type) {
                     <td><?php echo $row['Capacity']; ?></td>
                     <td><?php echo $row['Type']; ?></td>
                     <td>
-                        <!-- Edit button -->
+                        
                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['WarehouseID']; ?>">Edit</button>
-                        <!-- Delete button -->
+                        
                         <a href="?delete=<?php echo $row['WarehouseID']; ?>" class="btn btn-danger"
                             onclick="return confirm('Are you sure you want to delete this warehouse?')">Delete</a>
                     </td>
                 </tr>
 
-                <!-- Edit Modal -->
+               
                 <div class="modal fade" id="editModal<?php echo $row['WarehouseID']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -201,7 +201,7 @@ foreach ($types as $index => $type) {
             </tbody>
         </table>
 
-        <!-- Chart Section -->
+        
         <div class="mt-5">
             <h3>Warehouse Capacity by Type</h3>
             <canvas id="capacityChart"></canvas>
@@ -210,7 +210,7 @@ foreach ($types as $index => $type) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Line Chart for Warehouse Capacity by Type
+        
         var ctx = document.getElementById('capacityChart').getContext('2d');
         var capacityChart = new Chart(ctx, {
             type: 'line',
