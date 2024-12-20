@@ -13,7 +13,7 @@ if (isset($_POST['id']) && isset($_POST['password'])) {
     $username = validate($_POST['id']); 
     $password = validate($_POST['password']);
 
-    // Using prepared statements for security (avoiding SQL injection)
+    
     $sql = "SELECT * FROM users WHERE username=?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "s", $username);
@@ -23,13 +23,13 @@ if (isset($_POST['id']) && isset($_POST['password'])) {
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
 
-        // Verifying password using password_verify (assuming stored password is hashed)
+         
         if (password_verify($password, $row['password'])) {
             $_SESSION['name'] = $row['firstname'] . " " . $row['lastname'];
             $_SESSION['username'] = $row['username']; 
             $_SESSION['user_type'] = $row['user_type']; 
 
-            // Redirect based on user type
+          
             switch ($row['user_type']) {
                 case 'Warehouse Staff':
                     header("Location: warehouse_dashboard.php");
