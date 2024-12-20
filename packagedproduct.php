@@ -2,7 +2,7 @@
 include "connection.php";
 session_start();
 
-// Handle Create operation
+
 if (isset($_POST['add_product'])) {
     $name = $_POST['name'];
     $packaging_method = $_POST['packaging_method'];
@@ -16,7 +16,7 @@ if (isset($_POST['add_product'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Update operation
+
 if (isset($_POST['update_product'])) {
     $product_id = $_POST['product_id'];
     $name = $_POST['name'];
@@ -32,18 +32,18 @@ if (isset($_POST['update_product'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Delete operation
+
 if (isset($_GET['delete'])) {
     $product_id = $_GET['delete'];
     $query = "DELETE FROM packaged_product WHERE ProductID = '$product_id'";
     mysqli_query($conn, $query);
 }
 
-// Fetch data to display in table
+
 $query = "SELECT * FROM packaged_product";
 $result = mysqli_query($conn, $query);
 
-// Prepare data for chart (Nutritional values for each product)
+
 $product_data = [];
 while ($row = mysqli_fetch_assoc($result)) {
     $product_data[] = [
@@ -134,7 +134,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <section class="container my-5">
         <h2 class="text-center">Packaged Product Management</h2>
 
-        <!-- Add New Product Form -->
+        
         <h3>Add New Product</h3>
         <form method="POST" action="">
             <div class="form-group">
@@ -148,7 +148,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
         </form>
 
-        <!-- Displaying Product Data -->
+       
         <table class="table table-bordered table-hover mt-4">
             <thead>
                 <tr>
@@ -164,7 +164,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </thead>
             <tbody>
                 <?php
-                // Reset result pointer to fetch data again for displaying
+               
                 mysqli_data_seek($result, 0);
                 while ($row = mysqli_fetch_assoc($result)): ?>
                 <tr>
@@ -176,15 +176,15 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <td><?php echo $row['Fat']; ?> g</td>
                     <td><?php echo $row['Vitamins']; ?></td>
                     <td>
-                        <!-- Edit button -->
+                       
                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['ProductID']; ?>">Edit</button>
-                        <!-- Delete button -->
+                       
                         <a href="?delete=<?php echo $row['ProductID']; ?>" class="btn btn-danger"
                             onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
                     </td>
                 </tr>
 
-                <!-- Edit Modal -->
+                
                 <div class="modal fade" id="editModal<?php echo $row['ProductID']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -212,7 +212,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </tbody>
         </table>
 
-        <!-- Chart Section -->
+        
         <div class="chart-container">
             <h3>Product Nutritional Profile</h3>
             <canvas id="nutritionalChart"></canvas>
@@ -221,7 +221,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Radar Chart for Product Nutritional Profile
+        
         var ctx = document.getElementById('nutritionalChart').getContext('2d');
         var nutritionalChart = new Chart(ctx, {
             type: 'radar',
