@@ -2,7 +2,7 @@
 include "connection.php";
 session_start();
 
-// Handle Create operation
+
 if (isset($_POST['add_officer'])) {
     $region = $_POST['region'];
     $expertise = $_POST['expertise'];
@@ -14,7 +14,7 @@ if (isset($_POST['add_officer'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Update operation
+
 if (isset($_POST['update_officer'])) {
     $officer_id = $_POST['officer_id'];
     $region = $_POST['region'];
@@ -27,14 +27,14 @@ if (isset($_POST['update_officer'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Delete operation
+
 if (isset($_GET['delete'])) {
     $officer_id = $_GET['delete'];
     $query = "DELETE FROM agricultural_officer WHERE OfficerID = '$officer_id'";
     mysqli_query($conn, $query);
 }
 
-// Fetch data to display in table
+
 $query = "SELECT * FROM agricultural_officer";
 $result = mysqli_query($conn, $query);
 ?>
@@ -71,7 +71,7 @@ $result = mysqli_query($conn, $query);
 </head>
 
 <body>
-    <!-- Navigation Bar -->
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">GreenCycle</a>
@@ -100,14 +100,14 @@ $result = mysqli_query($conn, $query);
     <section class="container my-5">
         <h2 class="text-center">Agricultural Officers</h2>
 
-        <!-- Alert for success or failure -->
+       
         <?php if (isset($message)): ?>
             <div class="alert alert-success">
                 <?php echo $message; ?>
             </div>
         <?php endif; ?>
 
-        <!-- Add New Officer Form -->
+        
         <h3>Add New Officer</h3>
         <form method="POST" action="">
             <div class="form-group">
@@ -120,7 +120,7 @@ $result = mysqli_query($conn, $query);
             </div>
         </form>
 
-        <!-- Displaying Agricultural Officers -->
+        
         <table class="table table-bordered table-hover mt-4">
             <thead>
                 <tr>
@@ -143,14 +143,14 @@ $result = mysqli_query($conn, $query);
                         <td><?php echo $row['Street']; ?></td>
                         <td><?php echo $row['OfficeID']; ?></td>
                         <td>
-                            <!-- Edit button -->
+                           
                             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['OfficerID']; ?>">Edit</button>
-                            <!-- Delete button -->
+                            
                             <a href="?delete=<?php echo $row['OfficerID']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this officer?')">Delete</a>
                         </td>
                     </tr>
 
-                    <!-- Edit Modal -->
+                  
                     <div class="modal fade" id="editModal<?php echo $row['OfficerID']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
