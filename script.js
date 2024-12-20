@@ -56,7 +56,7 @@ function toggleTable(tableId) {
 
 
 function navigateToSection(sectionId) {
-    // Map sectionId to demo URLs
+    
     const demoUrls = {
         'government-office': 'demo-government-office.html',
         'agricultural-officer': 'demo-agricultural-officer.html',
@@ -65,7 +65,7 @@ function navigateToSection(sectionId) {
         'market-place': 'demo-market-place.html'
     };
 
-    // Navigate to the corresponding demo page or toggle the section
+ 
     if (demoUrls[sectionId]) {
         window.location.href = demoUrls[sectionId];
     } else {
