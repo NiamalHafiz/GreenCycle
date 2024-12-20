@@ -2,7 +2,7 @@
 include "connection.php";
 session_start();
 
-// Handle Create operation
+  
 if (isset($_POST['add_transport'])) {
     $route = $_POST['route'];
     $vehicle_type = $_POST['vehicle_type'];
@@ -13,7 +13,7 @@ if (isset($_POST['add_transport'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Update operation
+ 
 if (isset($_POST['update_transport'])) {
     $transport_id = $_POST['transport_id'];
     $route = $_POST['route'];
@@ -25,18 +25,18 @@ if (isset($_POST['update_transport'])) {
     mysqli_query($conn, $query);
 }
 
-// Handle Delete operation
+ 
 if (isset($_GET['delete'])) {
     $transport_id = $_GET['delete'];
     $query = "DELETE FROM transport WHERE TransportID = '$transport_id'";
     mysqli_query($conn, $query);
 }
 
-// Fetch data to display in table
+ 
 $query = "SELECT * FROM transport";
 $result = mysqli_query($conn, $query);
 
-// Prepare data for chart (Active vs Inactive transport)
+ 
 $active_count = 0;
 $inactive_count = 0;
 $vehicle_type_count = [];
@@ -94,7 +94,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 </head>
 
 <body>
-    <!-- Navigation Bar -->
+     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php">GreenCycle</a>
@@ -124,14 +124,14 @@ while ($row = mysqli_fetch_assoc($result)) {
     <section class="container my-5">
         <h2 class="text-center">Transport Management</h2>
 
-        <!-- Alert for success or failure -->
+       
         <?php if (isset($message)): ?>
         <div class="alert alert-success">
             <?php echo $message; ?>
         </div>
         <?php endif; ?>
 
-        <!-- Add New Transport Form -->
+ 
         <h3>Add New Transport</h3>
         <form method="POST" action="">
             <div class="form-group">
@@ -143,7 +143,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
         </form>
 
-        <!-- Displaying Transport Data -->
+         
         <table class="table table-bordered table-hover mt-4">
             <thead>
                 <tr>
@@ -157,7 +157,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </thead>
             <tbody>
                 <?php
-                // Reset result pointer to fetch data again for displaying
+                
                 mysqli_data_seek($result, 0);
                 while ($row = mysqli_fetch_assoc($result)): ?>
                 <tr>
@@ -167,15 +167,15 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <td><?php echo $row['Status']; ?></td>
                     <td><?php echo $row['CmoID']; ?></td>
                     <td>
-                        <!-- Edit button -->
+                         
                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['TransportID']; ?>">Edit</button>
-                        <!-- Delete button -->
+                        
                         <a href="?delete=<?php echo $row['TransportID']; ?>" class="btn btn-danger"
                             onclick="return confirm('Are you sure you want to delete this transport?')">Delete</a>
                     </td>
                 </tr>
 
-                <!-- Edit Modal -->
+                 
                 <div class="modal fade" id="editModal<?php echo $row['TransportID']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -201,7 +201,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </tbody>
         </table>
 
-        <!-- Chart Section -->
+         
         <div class="mt-5">
             <h3>Status Distribution (Active vs Inactive)</h3>
             <canvas id="statusChart"></canvas>
@@ -213,7 +213,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Bar Chart for Vehicle Type Distribution
+        
         var ctx2 = document.getElementById('vehicleTypeChart').getContext('2d');
         var vehicleTypeChart = new Chart(ctx2, {
             type: 'bar',
